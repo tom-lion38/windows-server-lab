@@ -1,27 +1,33 @@
-# Checklist – Windows Server Lab
+# Checklist du lab Windows Server
 
-## Installation
-- [ ] Installation Windows Server
-- [ ] Configuration réseau initiale
-- [ ] Nom de machine et mises à jour
+## VM
+- [ ] ISO Windows Server et ISO VirtIO dans Proxmox
+- [ ] VM en q35 + UEFI, disque VirtIO SCSI, carte VirtIO, agent QEMU
+- [ ] Pilotes VirtIO et agent installés (`virtio-win-guest-tools.exe`)
+- [ ] Nom de machine, IP fixe, mises à jour
+- [ ] Instantané avant la promotion
 
 ## Active Directory
-- [ ] Installation AD DS
-- [ ] Création du domaine
-- [ ] Organisation des OU
-- [ ] Groupes et utilisateurs
+- [ ] Rôle AD DS installé, forêt créée
+- [ ] `dcdiag` sans erreur, DNS du domaine qui répond
+- [ ] OU racine du lab et sous-OU
+- [ ] `redircmp` vers l'OU des postes
+- [ ] Groupes par service, utilisateurs, appartenances
 
 ## GPO
-- [ ] GPO de sécurité de base
-- [ ] Restrictions utilisateur
-- [ ] Tests d’application des stratégies
+- [ ] GPO utilisateurs et ordinateurs créées et liées aux bonnes OU
+- [ ] Politique de mots de passe réglée au niveau du domaine
+- [ ] `gpresult` vérifié sur un poste
 
 ## WDS
-- [ ] Installation du rôle WDS
-- [ ] Ajout des images
-- [ ] Déploiement poste test
+- [ ] Pont isolé `vmbr1` sans IP ni passerelle
+- [ ] Deuxième carte du serveur sur `vmbr1`, IP fixe
+- [ ] DHCP autorisé, étendue liée seulement au réseau isolé
+- [ ] WDS initialisé, ports DHCP réglés
+- [ ] Image de démarrage et image d'installation ajoutées
+- [ ] Une VM installée de bout en bout par le réseau
 
-## Validation
-- [ ] Poste joint au domaine
-- [ ] GPO appliquées correctement
-- [ ] Documentation mise à jour
+## Fin
+- [ ] Poste de test joint au domaine
+- [ ] GPO appliquées sur le poste
+- [ ] Doc mise à jour

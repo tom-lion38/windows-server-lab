@@ -1,57 +1,38 @@
-<h1 align="center">Windows Server Lab</h1>
-<h3 align="center">Active Directory • GPO • WDS</h3>
+# windows-server-lab
 
----
+Mon lab Windows Server, monté dans une VM sur Proxmox. Le but est de comprendre
+comment marche un domaine Windows en entreprise : l'annuaire, les stratégies de
+groupe et le déploiement de postes par le réseau.
 
-## 🎯 Objectif
-Ce dépôt documente un **laboratoire Windows Server** destiné à l’apprentissage
-de l’administration **systèmes** dans un contexte proche de l’entreprise.
+Tout ce qui est ici est anonymisé : le domaine, les noms et les adresses sont des
+exemples à remplacer par les tiens.
 
-L’objectif est de comprendre la **logique d’un domaine Windows**, le déploiement
-des postes et l’application de stratégies via des méthodes claires et reproductibles.
+## Ce que j'ai mis en place
 
----
+- un contrôleur de domaine Active Directory, avec DNS intégré
+- des OU, des groupes et des utilisateurs créés en PowerShell
+- quelques GPO de base (sécurité, restrictions, environnement utilisateur)
+- WDS pour installer des postes en PXE, sur un réseau isolé dans Proxmox pour ne
+  pas gêner le reste du réseau
 
-## 🧱 Environnement
-- Windows Server  
-- Postes clients Windows  
-- Domaine Active Directory  
-- Réseau interne de lab
+## Procédures
 
----
+Dans l'ordre :
 
-## 🧠 Compétences travaillées
-- Déploiement d’un **domaine Active Directory**
-- Organisation en **OU, groupes et utilisateurs**
-- Mise en place de **GPO**
-- Déploiement de postes via **WDS**
-- Diagnostic et résolution de problèmes courants
+1. [La VM sur Proxmox](procedures/01-vm-proxmox.md) : réglages de la VM, pilotes VirtIO, agent invité.
+2. [Active Directory](procedures/02-ad-ds.md) : promotion en contrôleur de domaine, OU, groupes, utilisateurs.
+3. [GPO](procedures/03-gpo.md) : créer, lier et vérifier des stratégies.
+4. [WDS et PXE](procedures/04-wds-pxe.md) : réseau isolé, DHCP, images, premier déploiement.
 
----
+La [checklist](procedures/checklist.md) reprend tout ça en cases à cocher.
 
-## 🧪 Fonctionnalités mises en place
-- AD DS fonctionnel  
-- GPO de base (sécurité, restrictions, environnement utilisateur)
-- WDS avec images de déploiement
-- Tests de scénarios réels (ajout utilisateur, poste, panne simulée)
+## Exemples utilisés
 
----
+| Élément | Valeur d'exemple |
+| :-- | :-- |
+| Domaine | `ad.exemple.fr` (NetBIOS `LAB`) |
+| Contrôleur de domaine | `DC01`, 192.168.10.10 |
+| Réseau de déploiement isolé | 192.168.50.0/24, sans passerelle |
 
-## 📁 Organisation du dépôt
-- `ad-ds/` : structure du domaine et principes AD  
-- `gpo/` : exemples et logique des stratégies  
-- `wds/` : déploiement de postes  
-- `procedures/` : checklists et méthodes  
-- `notes/` : dépannage et retours d’expérience
-
----
-
-## 🔐 Sécurité
-Toutes les informations sont **anonymisées**.  
-Aucun nom réel de domaine, IP, utilisateur ou mot de passe n’est stocké.
-
----
-
-## 🚀 Évolution
-Le dépôt sera enrichi avec de nouvelles procédures, des exemples de GPO
-et des scénarios de dépannage.
+J'utilise un sous-domaine d'un vrai nom de domaine plutôt qu'un `.local`, c'est ce
+que Microsoft recommande.
